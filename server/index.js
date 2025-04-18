@@ -4,11 +4,15 @@ const dotenv = require('dotenv')
 const morgan = require('morgan')
 const helmet = require('helmet')
 const connectDB = require('./config/connectDB.js')
-
-
-const userRouter = require('./routes/userRoutes.js')
+// const fileUpload = require("express-fileupload");
+const cookieParser = require('cookie-parser')
+const cloudinaryConnect = require('./config/cloudinaryConnect')
 
 dotenv.config()
+
+// import routes
+const userRouter = require('./routes/userRoutes.js')
+
 
 const app = express()
 
@@ -21,14 +25,21 @@ app.use(morgan())
 app.use(helmet({
     crossOriginResourcePolicy: false,
 }))
+app.use(cookieParser())
+
+// app.use(
+//     fileUpload({
+//         useTempFiles: true,
+//         tempFileDir: "/tmp",
+//     })
+// )
 
 const port = process.env.PORT || 5000
 
 connectDB()
+cloudinaryConnect()
 
-app.get('/', (req, res) => {
-    res.send('Hello World!')
-})
+
 
 // user routes
 app.use('/api/user', userRouter)
