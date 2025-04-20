@@ -46,7 +46,7 @@ const signup = async (req, res) => {
             return res.status(400).json({ message: 'Error sending email', success: false });
         }
 
-        return res.status(201).json({success:true, message: 'User created successfully', data: newUser });
+        return res.status(200).json({success:true, message: 'User created successfully', data: newUser });
     } catch (error) {
         console.log("Error in signup ",error);
         return res.status(500).json({success:false, message:error });
