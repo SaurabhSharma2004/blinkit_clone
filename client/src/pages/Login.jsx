@@ -44,7 +44,7 @@ const Login = () => {
                 type="email"
                 autoComplete="email"
                 required
-                className="relative block w-full px-4 py-3 border border-gray-300 placeholder-gray-500 text-gray-900 rounded-lg focus:outline-none focus:ring-2 focus:ring-red-500 focus:border-red-500 sm:text-sm transition duration-150 ease-in-out"
+                className="relative block w-full px-4 py-3 border border-gray-300 placeholder-gray-500 text-gray-900 rounded-lg focus:outline-none focus:ring-2 focus:ring-green-500 focus:border-green-500 sm:text-sm transition duration-150 ease-in-out"
                 placeholder="Email address"
                 value={email}
                 onChange={(e) => setEmail(e.target.value)}
@@ -61,8 +61,8 @@ const Login = () => {
                 name="password"
                 type={showPassword ? "text" : "password"}
                 autoComplete="current-password"
-                required
-                className="relative block w-full px-4 py-3 border border-gray-300 placeholder-gray-500 text-gray-900 rounded-lg focus:outline-none focus:ring-2 focus:ring-red-500 focus:border-red-500 sm:text-sm transition duration-150 ease-in-out"
+                requigreen
+                className="relative block w-full px-4 py-3 border border-gray-300 placeholder-gray-500 text-gray-900 rounded-lg focus:outline-none focus:ring-2 focus:ring-green-500 focus:border-green-500 sm:text-sm transition duration-150 ease-in-out"
                 placeholder="Password"
                 value={password}
                 onChange={(e) => setPassword(e.target.value)}
@@ -86,7 +86,7 @@ const Login = () => {
           <div className="text-right text-sm">
             <Link
               to="/forgot-password"
-              className="font-medium text-red-600 hover:text-red-500 hover:underline"
+              className="font-medium text-green-600 hover:text-green-500 hover:underline"
             >
               Forgot your password?
             </Link>
@@ -96,7 +96,7 @@ const Login = () => {
           <div>
             <button
               type="submit"
-              className="w-full flex justify-center py-3 px-4 border border-transparent text-base font-medium rounded-lg text-white bg-red-600 hover:bg-red-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-red-500 shadow-md hover:shadow-lg transition duration-200 ease-in-out transform hover:-translate-y-0.5"
+              className="w-full flex justify-center py-3 px-4 border border-transparent text-base font-medium rounded-lg text-white bg-green-600 hover:bg-green-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-green-500 shadow-md hover:shadow-lg transition duration-200 ease-in-out transform hover:-translate-y-0.5"
             >
               Sign In
             </button>
@@ -108,7 +108,7 @@ const Login = () => {
           Don't have an account?{" "}
           <Link
             to="/signup"
-            className="font-medium text-red-600 hover:text-red-500 hover:underline"
+            className="font-medium text-green-600 hover:text-green-500 hover:underline"
           >
             Sign up now
           </Link>

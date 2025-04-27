@@ -2,6 +2,7 @@ import {toast} from "react-hot-toast";
 import {apiConnector} from '../apiconnector'
 import {authEndpoints} from "../apis"
 import {setLoading, setAccessToken, setRefreshToken} from "../../slices/authSlice"
+import {getUserDetails} from "./profileApi"
 
 const {
     LOGIN_API,
@@ -10,6 +11,7 @@ const {
     RESET_PASSWORD_API,
     FORGOT_PASSWORD_OTP_VERIFY_API,
     VERIFY_EMAIL_API,
+    REFRESH_TOKEN_API
 } = authEndpoints
 
 export function signUp (data, navigate)  {
@@ -53,9 +55,11 @@ export function login (email, password, navigate)  {
             dispatch(setRefreshToken(response.data.data.refreshToken))
 
 
-            localStorage.setItem("user", JSON.stringify(response.data.data.user));
             localStorage.setItem("accessToken", JSON.stringify(response.data.data.accessToken));
+
             localStorage.setItem("refreshToken", JSON.stringify(response.data.data.refreshToken));
+
+            dispatch(getUserDetails(response?.data?.data?.accessToken))
 
             navigate("/");
         } catch (error) {
@@ -138,4 +142,23 @@ export function resetPassword (email, password, navigate)  {
         toast.dismiss(toastId);
         dispatch(setLoading(false))
     }
+}
+
+export async function generateRefreshAccessToken (refreshToken) {
+    const toastId = toast.loading("Loading...")
+    let token = null
+    try {
+        const response = await apiConnector('POST', REFRESH_TOKEN_API, {refreshToken})
+        console.log("REFRESH TOKEN API RESPONSE............", response);
+        if (!response.data.success) {
+            throw new Error(response.data.message);
+        }
+        token = response.data.data.accessToken
+        localStorage.setItem("accessToken", JSON.stringify(response.data.data.accessToken));
+    } catch (error) {
+        console.log("REFRESH TOKEN API ERROR............", error);
+        toast.error("Failed to refresh token");
+    }
+    toast.dismiss(toastId);
+    return token
 }

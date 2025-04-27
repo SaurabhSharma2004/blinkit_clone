@@ -1,4 +1,5 @@
 const User = require('../models/User');
+const jwt = require('jsonwebtoken');
 const sendEmail = require('../config/sendEmail');
 const verifyEmailTemplate = require('../utlis/verifyEmailTemplate');
 const bcryptjs = require('bcryptjs');
@@ -182,7 +183,7 @@ const uploadAvatar = async (req, res) => {
 const updateUserDetails = async (req, res) => {
     try {
         const userId = req.userId
-        const {name, email, password, mobile} = req.body;
+        const {name, email, mobile, password} = req.body;
         let hashedPassword = null;
         if(password) {
             hashedPassword = await bcryptjs.hash(password, 10);
@@ -197,8 +198,7 @@ const updateUserDetails = async (req, res) => {
             _id: updateUser._id,
             name: updateUser.name,
             email: updateUser.email,
-            mobile: updateUser.mobile,
-            avatar: updateUser.avatar,
+            mobile: updateUser.mobile
         }});
     } catch (error) {
         return res.status(500).json({success:false, message:"Error while updating user details" });
@@ -292,5 +292,70 @@ const resetPassword = async (req, res) => {
     }
 }
 
+// refresh token function
+const refreshToken = async (req, res) => {
+    try {
+        const refreshToken = req.cookies.refreshToken || req?.headers?.authorization?.split(" ")[1]
 
-module.exports = {signup, verifyEmail, login, logout, uploadAvatar, updateUserDetails, forgotPassword, verifyForgotPasswordOtp, resetPassword};
+        if (!refreshToken) {
+            return res.status(401).json({ message: 'Please login again', success: false });
+        }
+
+        const verifyToken = await jwt.verify(refreshToken, process.env.JWT_SECRET)
+
+        if (!verifyToken) {
+            return res.status(401).json({ message: 'unauthorized access', success: false });
+        }
+
+        
+        const userId = verifyToken?.id
+        if (!userId) {
+            return res.status(401).json({ message: 'Invalid token payload', success: false });
+        }
+
+        const newAccessToken = await generateAccessToken(userId);
+
+        const cookiesOption = {
+            httpOnly: true,
+            secure: true,
+            sameSite: 'None',
+        }
+
+        res.cookie('accessToken', newAccessToken, cookiesOption);
+
+        return res.status(200).json({
+            success: true, message: 'New access token generated successfully', data: {
+                accessToken: newAccessToken
+            }
+        });
+
+    } catch (error) {
+        return res.status(500).json({
+            success: false,
+            message: "error while creating accessToken",
+            error: error.message || String(error)
+        });
+    }
+}
+
+// get user details
+const getUserDetails = async (req, res) => {
+    try {
+        const userId = req.userId
+        const user = await User.findById(userId).select('-password -refresh_token -__v -createdAt -updatedAt')
+        if(!user) {
+            return res.status(400).json({ message: 'User not found', success: false });
+        }
+        return res.status(200).json({success:true, message: 'User details fetched successfully', data:user});
+    } catch (error) {
+        return res.status(500).json({
+            success: false,
+            message: "error while getting user details",
+            error: error.message || String(error)
+        });
+        
+    }
+}
+
+
+module.exports = {signup, verifyEmail, login, logout, uploadAvatar, updateUserDetails, forgotPassword, verifyForgotPasswordOtp, resetPassword, refreshToken, getUserDetails};
