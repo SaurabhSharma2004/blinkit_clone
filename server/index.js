@@ -12,7 +12,8 @@ dotenv.config()
 
 // import routes
 const userRouter = require('./routes/userRoutes.js')
-
+const categoryRouter = require('./routes/categoryRoutes.js')
+const subCategoryRouter = require(('./routes/subCategoryRoutes.js'))
 
 const app = express()
 
@@ -27,13 +28,6 @@ app.use(helmet({
 }))
 app.use(cookieParser())
 
-// app.use(
-//     fileUpload({
-//         useTempFiles: true,
-//         tempFileDir: "/tmp",
-//     })
-// )
-
 const port = process.env.PORT || 5000
 
 connectDB()
@@ -43,6 +37,12 @@ cloudinaryConnect()
 
 // user routes
 app.use('/api/user', userRouter)
+
+// category routes
+app.use('/api/category', categoryRouter)
+
+// subcategory routes
+app.use('/api/subcategory', subCategoryRouter)
 
 
 

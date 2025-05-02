@@ -9,13 +9,13 @@ const Dashboard = () => {
             
             {/* left of menu */}
 
-            <div className='py-3 sticky top-24 overflow-y-auto hidden lg:block'>
+            <div className='py-3 sticky top-24 max-h-[calc(100vh - 96px)] overflow-y-auto hidden lg:block border-r'>
                 <UserMenu />
             </div>
 
 
             {/* right for content */}
-            <div className='bg-red-400'>
+            <div className=''>
                 <Outlet />
             </div>
 

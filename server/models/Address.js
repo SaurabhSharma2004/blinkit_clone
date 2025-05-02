@@ -1,4 +1,4 @@
-import mongoose from "mongoose";
+const mongoose = require("mongoose");
 
 const addressSchema = new mongoose.Schema({
     address_line: {
@@ -28,4 +28,4 @@ const addressSchema = new mongoose.Schema({
 },{timestamps: true});
 
 const Address = mongoose.model("Address", addressSchema);
-export default Address;
+module.exports =  Address;

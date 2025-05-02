@@ -12,6 +12,12 @@ import Dashboard from "../layouts/Dashboard"
 import MyProfile from "../pages/MyProfile"
 import MyOrders from "../pages/MyOrders"
 import Addresses from "../pages/Addresses"
+import PrivateRoute from "./PrivateRoute"
+import AdminRoute from "./AdminRoute"
+import CategoryPage from "../pages/CategoryPage"
+import SubCategoryPage from "../pages/SubCategoryPage"
+import UploadProducts from "../pages/UploadProducts"
+import ProductAdmin from "../pages/ProductAdmin"
 
 const router = createBrowserRouter([
     {
@@ -52,7 +58,11 @@ const router = createBrowserRouter([
             },
             {
                 path: "dashboard",
-                element: <Dashboard />,
+                element: (
+                    <PrivateRoute>
+                        <Dashboard />
+                    </PrivateRoute>
+                ),
                 children: [
                     {
                         path: "profile",
@@ -65,7 +75,41 @@ const router = createBrowserRouter([
                     {
                         path: "addresses",
                         element: <Addresses />
+                    },
+                    // Admin routes
+                    {
+                        path: "category",
+                        element: (
+                            <AdminRoute>
+                                <CategoryPage />
+                            </AdminRoute>
+                        )
+                    },
+                    {
+                        path: "subcategory",
+                        element: (
+                            <AdminRoute>
+                                <SubCategoryPage />
+                            </AdminRoute>
+                        )
+                    },
+                    {
+                        path: "upload-product",
+                        element: (
+                            <AdminRoute>
+                                <UploadProducts />
+                            </AdminRoute>
+                        )
+                    },
+                    {
+                        path: "products",
+                        element: (
+                            <AdminRoute>
+                                <ProductAdmin />
+                            </AdminRoute>
+                        )
                     }
+
                 ]
             }
         ]
