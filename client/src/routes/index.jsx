@@ -18,6 +18,8 @@ import CategoryPage from "../pages/CategoryPage"
 import SubCategoryPage from "../pages/SubCategoryPage"
 import UploadProducts from "../pages/UploadProducts"
 import ProductAdmin from "../pages/ProductAdmin"
+import ProductListPage from "../pages/ProductListPage"
+import ProductDisplayPage from "../pages/ProductDisplayPage.jsx";
 
 const router = createBrowserRouter([
     {
@@ -111,6 +113,19 @@ const router = createBrowserRouter([
                     }
 
                 ]
+            },
+            {
+                path: ":categoryId",
+                children: [
+                    {
+                        path: ":subcategoryId",
+                        element: <ProductListPage />
+                    }
+                ]
+            },
+            {
+                path: "/product/:productId/:productName",
+                element: <ProductDisplayPage/>
             }
         ]
     }

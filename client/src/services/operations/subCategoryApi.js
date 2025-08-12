@@ -1,7 +1,7 @@
 import {subCategoryEndpoints} from "../apis.js";
 import {apiConnector} from "../apiconnector.js";
 import {toast} from "react-hot-toast";
-import {setLoading} from "../../slices/authSlice.js";
+import {setLoading, addSubCategory, removeSubCategory, updateSubCategory} from "../../slices/subCategorySlice.js";
 
 const {
     CREATE_SUB_CATEGORY_API,
@@ -14,6 +14,7 @@ const {
 export function createSubCategoryApi(data, token) {
     return async (dispatch) => {
         const toastId = toast.loading("Loading...")
+        dispatch(setLoading(true))
         try {
             const response = await apiConnector("POST", CREATE_SUB_CATEGORY_API, data, {
                 Authorization: `Bearer ${token}`,
@@ -23,6 +24,7 @@ export function createSubCategoryApi(data, token) {
             if (!response?.data?.success) {
                 throw new Error(response?.data?.message);
             }
+            dispatch(addSubCategory(response?.data?.data))
             toast.success("Sub Category Created Successfully")
 
         } catch (error) {
@@ -30,6 +32,7 @@ export function createSubCategoryApi(data, token) {
             toast.error("Could not create sub category")
         }
         toast.dismiss(toastId);
+        dispatch(setLoading(false))
     }
 }
 
@@ -72,6 +75,7 @@ export function deleteSubCategoryById(id, token) {
             if (!response?.data?.success) {
                 throw new Error(response?.data?.message);
             }
+            dispatch(removeSubCategory(id))
             toast.success("Sub Category deleted Successfully")
         } catch (error) {
             console.log("DELETE_SUB_CATEGORY_API", error)
@@ -95,6 +99,7 @@ export function updateSubCategoryApi(id, data, token) {
             if (!response?.data?.success) {
                 throw new Error(response?.data?.message);
             }
+            dispatch(updateSubCategory(response?.data?.data))
             toast.success("Sub Category Updated Successfully")
         } catch (error) {
             console.log("UPDATE_SUB_CATEGORY_API ERROR", error);

@@ -14,7 +14,7 @@ const productSchema = new mongoose.Schema({
         required: true,
     },
     price: {
-        type: Number,
+        type: String,
         required: true,
     },
     unit: {
@@ -22,12 +22,12 @@ const productSchema = new mongoose.Schema({
         required: true,
     },
     stock: {
-        type: Number,
+        type: String,
         required: true,
     },
     discount: {
-        type: Number,
-        default: 0,
+        type: String,
+        default: "",
     },
     categoryId:[
         {
@@ -52,6 +52,8 @@ const productSchema = new mongoose.Schema({
         default: {},
     },
 },{timestamps: true});
+
+productSchema.index({ name: 'text', description: 'text' });
 
 const Product = mongoose.model("Product", productSchema);
 module.exports = Product;

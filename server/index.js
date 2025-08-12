@@ -13,7 +13,8 @@ dotenv.config()
 // import routes
 const userRouter = require('./routes/userRoutes.js')
 const categoryRouter = require('./routes/categoryRoutes.js')
-const subCategoryRouter = require(('./routes/subCategoryRoutes.js'))
+const subCategoryRouter = require('./routes/subCategoryRoutes.js')
+const productRouter = require('./routes/ProductRoutes.js')
 
 const app = express()
 
@@ -43,6 +44,9 @@ app.use('/api/category', categoryRouter)
 
 // subcategory routes
 app.use('/api/subcategory', subCategoryRouter)
+
+// product routes
+app.use('/api/product', productRouter)
 
 
 

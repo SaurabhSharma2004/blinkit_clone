@@ -6,6 +6,8 @@ import {useSelector, useDispatch} from "react-redux";
 import {useEffect} from "react";
 import {getAllCategories} from "./services/operations/categoryApi.js";
 import {setCategories} from "./slices/categorySlice.js";
+import {getAllSubCategories} from "./services/operations/subCategoryApi.js";
+import {setSubCategories} from "./slices/subCategorySlice.js";
 
 function App() {
     const {accessToken} = useSelector(state => state.auth)
@@ -15,7 +17,12 @@ function App() {
             const data = await getAllCategories(accessToken)
             dispatch(setCategories(data))
         }
+        const fetchSubCategoryData = async () => {
+            const data = await getAllSubCategories(accessToken)
+            dispatch(setSubCategories(data));
+        }
         fetchCategoryData()
+        fetchSubCategoryData()
     }, []);
     return (
         <>

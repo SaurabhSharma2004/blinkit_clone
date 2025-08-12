@@ -31,3 +31,13 @@ export const subCategoryEndpoints = {
     UPDATE_SUB_CATEGORY_API: `${baseUrl}/api/subcategory/update-subcategory`,
     DELETE_SUB_CATEGORY_API: `${baseUrl}/api/subcategory/delete-subcategory`,
 }
+
+export const productEndpoints = {
+    CREATE_PRODUCT_API: `${baseUrl}/api/product/create-product`,
+    GET_ALL_PRODUCTS_API: `${baseUrl}/api/product/get-all-products`,
+    GET_PRODUCT_BY_ID_API: `${baseUrl}/api/product/get-product-by-id`,
+    UPDATE_PRODUCT_BY_ID_API: `${baseUrl}/api/product/update-product-by-id`,
+    DELETE_PRODUCT_BY_ID_API: `${baseUrl}/api/product/delete-product-by-id`,
+    GET_PRODUCT_BY_CATEGORY_ID_API: `${baseUrl}/api/product/get-product-by-category-id`,
+    GET_PRODUCT_BY_CATEGORY_AND_SUB_CATEGORY_ID_API: `${baseUrl}/api/product/get-product-by-category-and-subcategory-id`,
+}
